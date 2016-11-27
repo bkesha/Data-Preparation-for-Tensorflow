@@ -1,3 +1,5 @@
+#Importing Important Libraries
+
 import sys
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -10,6 +12,7 @@ import glob
 from skimage.transform import resize
 
 
+#Cropping images
 def imcrop_tosquare(img):
     
     size = np.min(img.shape[:2])
@@ -19,6 +22,7 @@ def imcrop_tosquare(img):
         crop = np.take(crop, extra[i] // 2 + np.r_[:size], axis=i)
     return crop
 
+#Defining gabor kernel
 def gabor(ksize=32):
     
     g = tf.Graph()
@@ -148,19 +152,9 @@ def prepare_all(dir_name,N):
   temp=0
   temp_=0
   dirs = [d for d in os.listdir('./'+dir_name+'/') if os.path.isdir(os.path.join('./'+dir_name+'/', d))]
-  
-  print(dirs)
-  print(len(classes))
-  print(classes[1])
   tensors =[]
   Y=np.zeros((N*len(classes),len(classes)))
   for i in range(len(classes)):
-    '''
-    if(i<len(classes)-1):
-      X=prepare(classes[i],N)
-      X1=prepare(classes[i+1],N)
-      X=np.concatenate(prepare(X,X1),axis=0)
-    '''
     tensors.append(prepare(classes[i],N))
     temp=temp+N
     Y[temp_:temp,i]=1
